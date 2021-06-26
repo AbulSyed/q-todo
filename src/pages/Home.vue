@@ -5,7 +5,7 @@
       separator
     >
 
-      <q-item 
+      <q-item
         v-for="task in tasks"
         :key="task.id"
         @click="task.completed = !task.completed"
