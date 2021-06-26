@@ -1,21 +1,10 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="hHh lpR fFf">
     <q-header elevated>
       <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="leftDrawerOpen = !leftDrawerOpen"
-        />
-
-        <q-toolbar-title>
-          Quasar App
+        <q-toolbar-title class="absolute-center">
+          Q-todo
         </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
       </q-toolbar>
     </q-header>
 
@@ -32,7 +21,8 @@
     </q-footer>
 
     <q-drawer
-      v-model="leftDrawerOpen"
+      :breakpoint="767"
+      :width="250"
       show-if-above
       bordered
       content-class="bg-grey-1"
@@ -79,9 +69,16 @@ export default {
   components: { EssentialLink },
   data () {
     return {
-      leftDrawerOpen: false,
       essentialLinks: linksData
     }
   }
 }
 </script>
+
+<style>
+  @media screen and (min-width: 768px) {
+    .q-footer {
+      display: none;
+    }
+  }
+</style>
