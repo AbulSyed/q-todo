@@ -75,7 +75,7 @@ const linksData = [
 ];
 
 export default {
-  name: 'Layout',
+  name: 'MainLayout',
   components: { EssentialLink },
   data () {
     return {
