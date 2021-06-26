@@ -1,5 +1,5 @@
 <template>
-  <q-page padding>
+  <q-page class="q-pa-md">
     <p>Settings page</p>
   </q-page>
 </template>
