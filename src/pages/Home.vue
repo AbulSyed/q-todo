@@ -6,8 +6,8 @@
     >
 
       <q-item
-        v-for="task in tasks"
-        :key="task.id"
+        v-for="(task, key) in tasks"
+        :key="key"
         clickable
         @click="task.completed = !task.completed"
         :class="task.completed ? 'bg-green-3' : 'bg-grey-1'"
@@ -36,33 +36,11 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
-  data(){
-    return {
-      tasks: [
-        {
-          id: 1,
-          name: 'finish homework',
-          completed: false,
-          dueDate: '2021/06/26',
-          dueTime: '12:00'
-        },
-        {
-          id: 2,
-          name: 'get food',
-          completed: true,
-          dueDate: '2021/06/27',
-          dueTime: '14:00'
-        },
-        {
-          id: 3,
-          name: 'chill',
-          completed: false,
-          dueDate: '2021/06/28',
-          dueTime: '16:00'
-        }
-      ]
-    }
+  computed: {
+    ...mapGetters('tasks', ['tasks'])
   }
 }
 </script>
