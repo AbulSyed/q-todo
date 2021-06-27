@@ -8,9 +8,9 @@
       <q-item
         v-for="task in tasks"
         :key="task.id"
+        clickable
         @click="task.completed = !task.completed"
         :class="task.completed ? 'bg-green-3' : 'bg-grey-1'"
-        clickable
         v-ripple
       >
         <q-item-section side top>
