@@ -23,10 +23,14 @@ export default {
     }
   },
   mutations: {
-
+    SET_TASK(state, task){
+      Object.assign(state.tasks[task.id], task.updates)
+    }
   },
   actions: {
-
+    updateTask(context, task){
+      context.commit('SET_TASK', task)
+    }
   },
   getters: {
     tasks: (state) => {
