@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 export default {
   namespaced: true,
   state: {
@@ -23,13 +25,19 @@ export default {
     }
   },
   mutations: {
-    SET_TASK(state, task){
+    UPDATE_TASK(state, task){
       Object.assign(state.tasks[task.id], task.updates)
+    },
+    DELETE_TASK(state, id){
+      Vue.delete(state.tasks, id) // Vue2 - !needed in Vue3
     }
   },
   actions: {
     updateTask(context, task){
-      context.commit('SET_TASK', task)
+      context.commit('UPDATE_TASK', task)
+    },
+    deleteTask(context, id){
+      context.commit('DELETE_TASK', id)
     }
   },
   getters: {
