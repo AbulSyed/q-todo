@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import { uid } from 'quasar'
 
 export default {
   namespaced: true,
@@ -30,6 +31,9 @@ export default {
     },
     DELETE_TASK(state, id){
       Vue.delete(state.tasks, id) // Vue2 - !needed in Vue3
+    },
+    ADD_TASK(state, task){
+      Vue.set(state.tasks, task.id, task.task) // Vue2 - !needed in Vue3
     }
   },
   actions: {
@@ -38,6 +42,14 @@ export default {
     },
     deleteTask(context, id){
       context.commit('DELETE_TASK', id)
+    },
+    addTask(context, task){
+      let id = uid()
+      const payload = {
+        id,
+        task
+      }
+      context.commit('ADD_TASK', payload)
     }
   },
   getters: {
