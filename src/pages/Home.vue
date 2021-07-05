@@ -38,7 +38,7 @@ export default {
   components: { Task, AddTaskDialog },
   data(){
     return {
-      showDialog: true
+      showDialog: false
     }
   },
   computed: {

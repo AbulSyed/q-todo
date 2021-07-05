@@ -1,6 +1,6 @@
 <template>
   <q-card>
-    <DialogHeader>Add task</DialogHeader>
+    <DialogHeader>Edit task</DialogHeader>
 
     <q-form @submit.prevent="handleSubmit">
       <q-card-section class="q-pt-none">
@@ -28,23 +28,27 @@ import DialogDueTime from './shared/DialogDueTime.vue'
 import DialogButtons from './shared/DialogButtons.vue'
 
 export default {
+  props: ['task', 'id'],
   components: { DialogHeader, DialogTaskName, DialogDueDate, DialogDueTime, DialogButtons },
   data(){
     return {
-      name: '',
-      dueDate: '',
-      dueTime: '',
-      completed: false
+      name: this.task.name,
+      dueDate: this.task.dueDate,
+      dueTime: this.task.dueTime,
+      completed: this.task.completed
     }
   },
   methods: {
-    ...mapActions('tasks', ['addTask']),
+    ...mapActions('tasks', ['updateTask']),
     handleSubmit(){
-      this.addTask({
-        name: this.name,
-        dueDate: this.dueDate,
-        dueTime: this.dueTime,
-        completed: this.completed
+      this.updateTask({
+        id: this.id,
+        updates: {
+          name: this.name,
+          dueDate: this.dueDate,
+          dueTime: this.dueTime,
+          completed: this.completed
+        }
       })
     }
   }
