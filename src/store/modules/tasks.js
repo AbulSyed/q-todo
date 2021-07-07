@@ -23,7 +23,8 @@ export default {
         dueDate: '2021/06/28',
         dueTime: '16:00'
       }
-    }
+    },
+    search: ''
   },
   mutations: {
     UPDATE_TASK(state, task){
@@ -34,6 +35,9 @@ export default {
     },
     ADD_TASK(state, task){
       Vue.set(state.tasks, task.id, task.task) // Vue2 - !needed in Vue3
+    },
+    SET_SEARCH(state, search){
+      state.search = search
     }
   },
   actions: {
@@ -50,23 +54,41 @@ export default {
         task
       }
       context.commit('ADD_TASK', payload)
+    },
+    setSearch(context, search){
+      context.commit('SET_SEARCH', search)
     }
   },
   getters: {
-    tasksTodo: (state) => {
-      const tasks = {}
-      Object.keys(state.tasks).forEach(key => {
-        let task = state.tasks[key]
+    tasksFiltered: state => {
+      let tasksFiltered = {}
+      if(state.search){
+        Object.keys(state.tasks).forEach(key => {
+          let task = state.tasks[key]
+          if(task.name.toLowerCase().includes(state.search.toLowerCase())){
+            tasksFiltered[key] = task
+          }
+        })
+        return tasksFiltered
+      }
+      return state.tasks
+    },
+    tasksTodo: (state, getters) => {
+      let tasksFiltered = getters.tasksFiltered
+      let tasks = {}
+      Object.keys(tasksFiltered).forEach(key => {
+        let task = tasksFiltered[key]
         if(!task.completed){
           tasks[key] = task
         }
       })
       return tasks
     },
-    tasksCompleted: (state) => {
-      const tasks = {}
-      Object.keys(state.tasks).forEach(key => {
-        let task = state.tasks[key]
+    tasksCompleted: (state, getters) => {
+      let tasksFiltered = getters.tasksFiltered
+      let tasks = {}
+      Object.keys(tasksFiltered).forEach(key => {
+        let task = tasksFiltered[key]
         if(task.completed){
           tasks[key] = task
         }

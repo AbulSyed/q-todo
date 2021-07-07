@@ -1,7 +1,11 @@
 <template>
   <q-page class="q-pa-md">
 
-    <q-banner v-if="!Object.keys(tasksTodo).length" inline-actions class="bg-grey-3">
+    <div class="row q-mb-lg">
+      <SearchBar></SearchBar>
+    </div>
+
+    <q-banner v-if="!Object.keys(tasksTodo).length && !search" inline-actions class="bg-grey-3">
       <template v-slot:avatar>
         <q-icon name="check" color="primary" />
       </template>
@@ -60,20 +64,22 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 import Task from '../components/Task.vue'
 import AddTaskDialog from '../components/Dialogs/AddTaskDialog.vue'
 import Banner from '../components/Banner.vue'
+import SearchBar from '../components/tools/SearchBar.vue'
 
 export default {
-  components: { Task, AddTaskDialog, Banner },
+  components: { Task, AddTaskDialog, Banner, SearchBar },
   data(){
     return {
       showDialog: false
     }
   },
   computed: {
-    ...mapGetters('tasks', ['tasksTodo', 'tasksCompleted'])
+    ...mapGetters('tasks', ['tasksTodo', 'tasksCompleted']),
+    ...mapState('tasks', ['search'])
   }
 }
 </script>
