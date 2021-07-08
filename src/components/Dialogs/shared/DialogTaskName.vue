@@ -5,6 +5,7 @@
       :value="name"
       @input="$emit('update:name', $event)"
       autofocus
+      v-select-all
       clearable
       class="col"
       outlined
@@ -14,7 +15,19 @@
 
 <script>
   export default {
-    props: ['name']
+    props: ['name'],
+    directives: {
+      selectAll: {
+        bind(el){
+          let input = el.querySelector('.q-field__native')
+          input.addEventListener('focus', () => {
+            if(input.value.length){
+              input.select()
+            }
+          })
+        }
+      }
+    }
   }
 </script>
 
