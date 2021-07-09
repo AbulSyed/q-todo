@@ -1,60 +1,69 @@
 <template>
-  <q-page class="q-pa-md">
+  <q-page class="">
 
-    <div class="row q-mb-lg">
-      <SearchBar></SearchBar>
-    </div>
+    <div class="q-pa-md absolute full-width full-height column">
 
-    <q-banner v-if="!Object.keys(tasksTodo).length && !search" inline-actions class="bg-grey-3">
-      <template v-slot:avatar>
-        <q-icon name="check" color="primary" />
-      </template>
-      No tasks to do!
-      <template v-slot:action>
+      <div class="row q-mb-lg">
+        <SearchBar></SearchBar>
+      </div>
+
+      <q-scroll-area class="q-scroll-area-tasks">
+
+        <q-banner v-if="!Object.keys(tasksTodo).length && !search" inline-actions class="bg-grey-3">
+          <template v-slot:avatar>
+            <q-icon name="check" color="primary" />
+          </template>
+          No tasks to do!
+          <template v-slot:action>
+            <q-btn
+              @click="showDialog = true"
+              flat
+              color="primary"
+              label="Add a task" />
+          </template>
+        </q-banner>
+
+        <Banner v-if="Object.keys(tasksTodo).length" bgColor="bg-orange">Todo</Banner>
+        <q-list
+          v-if="Object.keys(tasksTodo).length"
+          bordered
+          separator
+        >
+          <Task
+            v-for="(task, key) in tasksTodo"
+            :key="key"
+            :task="task"
+            :id="key"
+          />
+        </q-list>
+        
+        <Banner v-if="Object.keys(tasksCompleted).length" bgColor="bg-green" class="q-mt-lg">Completed</Banner>
+        <q-list
+          v-if="Object.keys(tasksCompleted).length"
+          bordered
+          separator
+        >
+          <Task
+            v-for="(task, key) in tasksCompleted"
+            :key="key"
+            :task="task"
+            :id="key"
+          />
+        </q-list>
+
+      </q-scroll-area>
+
+      <div class="absolute-bottom text-center q-mb-lg no-pointer-events">
         <q-btn
           @click="showDialog = true"
-          flat
+          class="all-pointer-events"
+          round
           color="primary"
-          label="Add a task" />
-      </template>
-    </q-banner>
+          size="24px"
+          icon="add"
+        />
+      </div>
 
-    <Banner v-if="Object.keys(tasksTodo).length" bgColor="bg-orange">Todo</Banner>
-    <q-list
-      v-if="Object.keys(tasksTodo).length"
-      bordered
-      separator
-    >
-      <Task
-        v-for="(task, key) in tasksTodo"
-        :key="key"
-        :task="task"
-        :id="key"
-      />
-    </q-list>
-    
-    <Banner v-if="Object.keys(tasksCompleted).length" bgColor="bg-green" class="q-mt-lg">Completed</Banner>
-    <q-list
-      v-if="Object.keys(tasksCompleted).length"
-      bordered
-      separator
-    >
-      <Task
-        v-for="(task, key) in tasksCompleted"
-        :key="key"
-        :task="task"
-        :id="key"
-      />
-    </q-list>
-
-    <div class="absolute-bottom text-center q-mb-lg">
-      <q-btn
-        @click="showDialog = true"
-        round
-        color="primary"
-        size="24px"
-        icon="add"
-      />
     </div>
 
     <q-dialog v-model="showDialog">
@@ -85,5 +94,8 @@ export default {
 </script>
 
 <style>
-
+.q-scroll-area-tasks {
+  display: flex;
+  flex-grow: 1;
+}
 </style>

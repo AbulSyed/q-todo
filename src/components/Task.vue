@@ -4,6 +4,7 @@
     @click="updateTask({ id: id, updates: { completed: !task.completed } })"
     :class="task.completed ? 'bg-green-3' : 'bg-grey-1'"
     v-ripple
+    v-touch-hold.mouse="handleHold"
   >
     <q-item-section side top>
       <q-checkbox
@@ -21,7 +22,7 @@
     </q-item-section>
 
     <q-item-section side top>
-      <q-item-label caption>{{ task.dueDate }}</q-item-label>
+      <q-item-label caption>{{ formatDate(task.dueDate) }}</q-item-label>
       <q-item-label caption>{{ task.dueTime }}</q-item-label>
     </q-item-section>
 
@@ -53,6 +54,7 @@
 <script>
 import { mapActions } from 'vuex'
 import EditTaskDialog from './Dialogs/EditTaskDialog.vue'
+import { date } from 'quasar'
 
 export default {
   props: ['task', 'id'],
@@ -76,6 +78,12 @@ export default {
       }).onCancel(() => {
         console.log('>>>> Cancel')
       })
+    },
+    handleHold(){
+      this.showDialog = true
+    },
+    formatDate(dueDate){
+      return date.formatDate(dueDate, 'D MMM YY')
     }
   }
 }

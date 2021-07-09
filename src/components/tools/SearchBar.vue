@@ -2,6 +2,7 @@
   <q-input
     outlined
     v-model="searchInput"
+    @keyup.esc="searchInput = ''"
     class="col"
     label="Search"
   >
