@@ -23,7 +23,7 @@
 
     <q-item-section side top>
       <q-item-label caption>{{ formatDate(task.dueDate) }}</q-item-label>
-      <q-item-label caption>{{ task.dueTime }}</q-item-label>
+      <q-item-label caption>{{ taskDueTime }}</q-item-label>
     </q-item-section>
 
     <q-item-section side top>
@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import EditTaskDialog from './Dialogs/EditTaskDialog.vue'
 import { date } from 'quasar'
 
@@ -62,6 +62,16 @@ export default {
   data() {
     return {
       showDialog: false
+    }
+  },
+  computed: {
+    ...mapState('settings', ['settings']),
+    taskDueTime(){
+      if(this.settings.showHourlyTime){
+        // formateDate expecting like 2021/07/09
+        return date.formatDate(this.task.dueDate + ' ' + this.task.dueTime, 'h:mm A')
+      }
+      return this.task.dueTime
     }
   },
   methods: {
