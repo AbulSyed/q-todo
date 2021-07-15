@@ -9,7 +9,7 @@
 
       <q-scroll-area class="q-scroll-area-tasks">
 
-        <q-banner v-if="!Object.keys(tasksTodo).length && !search" inline-actions class="bg-grey-3">
+        <q-banner v-if="!tasksTodo.length && !search" inline-actions class="bg-grey-3">
           <template v-slot:avatar>
             <q-icon name="check" color="primary" />
           </template>
@@ -23,31 +23,31 @@
           </template>
         </q-banner>
 
-        <Banner v-if="Object.keys(tasksTodo).length" bgColor="bg-orange">Todo</Banner>
+        <Banner v-if="tasksTodo.length" bgColor="bg-orange">Todo</Banner>
         <q-list
-          v-if="Object.keys(tasksTodo).length"
+          v-if="tasksTodo.length"
           bordered
           separator
         >
           <Task
-            v-for="(task, key) in tasksTodo"
-            :key="key"
+            v-for="task in tasksTodo"
+            :key="task.id"
             :task="task"
-            :id="key"
+            :id="task.id"
           />
         </q-list>
         
-        <Banner v-if="Object.keys(tasksCompleted).length" bgColor="bg-green" class="q-mt-lg">Completed</Banner>
+        <Banner v-if="tasksCompleted.length" bgColor="bg-green" class="q-mt-lg">Completed</Banner>
         <q-list
-          v-if="Object.keys(tasksCompleted).length"
+          v-if="tasksCompleted.length"
           bordered
           separator
         >
           <Task
-            v-for="(task, key) in tasksCompleted"
-            :key="key"
+            v-for="task in tasksCompleted"
+            :key="task.id"
             :task="task"
-            :id="key"
+            :id="task.id"
           />
         </q-list>
 

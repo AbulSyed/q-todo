@@ -43,12 +43,10 @@ export default {
     handleSubmit(){
       this.updateTask({
         id: this.id,
-        updates: {
-          name: this.name,
-          dueDate: this.dueDate,
-          dueTime: this.dueTime,
-          completed: this.completed
-        }
+        name: this.name,
+        dueDate: this.dueDate,
+        dueTime: this.dueTime,
+        completed: this.completed
       })
     }
   }

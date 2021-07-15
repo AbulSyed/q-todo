@@ -1,7 +1,13 @@
 <template>
   <q-item
     clickable
-    @click="updateTask({ id: id, updates: { completed: !task.completed } })"
+    @click="updateTask({
+      id,
+      name: task.name,
+      dueDate: task.dueDate,
+      dueTime: task.dueTime,
+      completed: !task.completed
+    })"
     :class="task.completed ? 'bg-green-3' : 'bg-grey-1'"
     v-ripple
     v-touch-hold.mouse="handleHold"
