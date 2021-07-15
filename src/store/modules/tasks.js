@@ -1,5 +1,4 @@
-import Vue from 'vue'
-import { uid } from 'quasar'
+import { firestoreService } from 'src/boot/firebase'
 
 export default {
   namespaced: true,
@@ -8,35 +7,63 @@ export default {
     search: ''
   },
   mutations: {
-    UPDATE_TASK(state, update){
-      state.tasks = state.tasks.map(task => {
-        if(task.id == update.id){
-          return update
-        }else{
-          return task
-        }
-      })
+    SET_TASKS(state, tasks){
+      state.tasks = tasks
     },
-    DELETE_TASK(state, id){
-      state.tasks = state.tasks.filter(task => task.id !== id)
-    },
-    ADD_TASK(state, task){
-      state.tasks = state.tasks.concat(task)
-    },
+    // REDUNDANT DUE TO FIRESTORE REALTIME LISTNER :(
+    // UPDATE_TASK(state, update){
+    //   state.tasks = state.tasks.map(task => {
+    //     if(task.id == update.id){
+    //       return update
+    //     }else{
+    //       return task
+    //     }
+    //   })
+    // },
+    // DELETE_TASK(state, id){
+    //   state.tasks = state.tasks.filter(task => task.id !== id)
+    // },
+    // ADD_TASK(state, task){
+    //   state.tasks = state.tasks.concat(task)
+    // },
     SET_SEARCH(state, search){
       state.search = search
     }
   },
   actions: {
-    updateTask(context, task){
-      context.commit('UPDATE_TASK', task)
+    async fetchTasks(context){
+      let tasks = []
+
+      const query = ['userId', '==', context.rootState.auth.user.id]
+
+      let collectionRef = firestoreService.collection('tasks').where(...query)
+
+      collectionRef.onSnapshot(snap => {
+        let results = []
+        snap.docs.forEach(doc => {
+          results.push({ ...doc.data(), id: doc.id })
+        })
+        tasks = results
+        console.log(tasks)
+        context.commit('SET_TASKS', tasks)
+      }, (err) => {
+        console.log(err.message)
+      })
     },
-    deleteTask(context, id){
-      context.commit('DELETE_TASK', id)
+    async addTask(context, task){
+      try {
+        const res = await firestoreService.collection('tasks').add({ ...task, userId: context.rootState.auth.user.id })
+        return res
+      }catch(err){
+        console.log(err.message)
+      }
     },
-    addTask(context, task){
-      let id = uid()
-      context.commit('ADD_TASK', { id, ...task })
+    async updateTask(context, task){
+      console.log(task)
+      await firestoreService.collection('tasks').doc(task.id).update(task.updates)
+    },
+    async deleteTask(context, id){
+      await firestoreService.collection('tasks').doc(id).delete()
     },
     setSearch(context, search){
       context.commit('SET_SEARCH', search)

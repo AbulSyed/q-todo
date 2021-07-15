@@ -3,10 +3,12 @@
     clickable
     @click="updateTask({
       id,
-      name: task.name,
-      dueDate: task.dueDate,
-      dueTime: task.dueTime,
-      completed: !task.completed
+      updates: {
+        name: task.name,
+        dueDate: task.dueDate,
+        dueTime: task.dueTime,
+        completed: !task.completed
+      }
     })"
     :class="task.completed ? 'bg-green-3' : 'bg-grey-1'"
     v-ripple
@@ -89,7 +91,6 @@ export default {
         cancel: true,
         persistent: true
       }).onOk(() => {
-        console.log('>>>> OK')
         this.deleteTask(id)
       }).onCancel(() => {
         console.log('>>>> Cancel')

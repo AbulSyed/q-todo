@@ -18,7 +18,7 @@ export default {
         console.log('User status changed to', user)
         Loading.hide()
         if(user){
-          context.commit('SET_USER', user.email)
+          context.commit('SET_USER', { user: user.email, id: user.uid })
           this.$router.push('/')
         }else{
           context.commit('SET_USER', null)

@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex'
+import { mapGetters, mapState, mapActions } from 'vuex'
 import Task from '../components/Task.vue'
 import AddTaskDialog from '../components/Dialogs/AddTaskDialog.vue'
 import Banner from '../components/Banner.vue'
@@ -89,6 +89,12 @@ export default {
   computed: {
     ...mapGetters('tasks', ['tasksTodo', 'tasksCompleted']),
     ...mapState('tasks', ['search'])
+  },
+  methods: {
+    ...mapActions('tasks', ['fetchTasks'])
+  },
+  mounted(){
+    this.fetchTasks()
   }
 }
 </script>
