@@ -1,3 +1,22 @@
+import { authService } from 'src/boot/firebase'
+
+const requireAuth = (to, from, next) => {
+  const user = authService.currentUser
+  if(!user){
+    next('/auth')
+  }else{
+    next()
+  }
+}
+
+const requireNoAuth = (to, from, next) => {
+  const user = authService.currentUser
+  if(user){
+    next('/')
+  }else{
+    next()
+  }
+}
 
 const routes = [
   {
@@ -6,15 +25,18 @@ const routes = [
     children: [
       { 
         path: '',
-        component: () => import('pages/Home.vue')
+        component: () => import('pages/Home.vue'),
+        beforeEnter: requireAuth
       },
       {
         path: '/settings',
-        component: () => import('pages/Settings.vue')
+        component: () => import('pages/Settings.vue'),
+        beforeEnter: requireAuth
       },
       {
         path: '/auth',
-        component: () => import('pages/Auth.vue')
+        component: () => import('pages/Auth.vue'),
+        beforeEnter: requireNoAuth
       }
     ]
   },

@@ -33,6 +33,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   props: ['tab'],
   data() {
@@ -42,11 +44,18 @@ export default {
     }
   },
   methods: {
+    ...mapActions('auth', ['registerUser', 'loginUser']),
     handleSubmit() {
       if(this.tab == 'login'){
-        console.log('login')
+        this.loginUser({
+          email: this.email,
+          password: this.password
+        })
       }else if(this.tab == 'register'){
-        console.log('register')
+        this.registerUser({
+          email: this.email,
+          password: this.password
+        })
       }
     },
     isValidEmail(email){
