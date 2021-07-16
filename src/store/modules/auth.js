@@ -21,6 +21,8 @@ export default {
           context.commit('SET_USER', { user: user.email, id: user.uid })
           this.$router.push('/')
         }else{
+          context.commit('tasks/SET_TASKS_LOADED', false, { root: true })
+          context.commit('tasks/SET_TASKS', [], { root: true })
           context.commit('SET_USER', null)
           this.$router.push('/auth')
         }

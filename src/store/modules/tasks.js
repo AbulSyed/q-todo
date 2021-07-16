@@ -1,10 +1,13 @@
 import { firestoreService } from 'src/boot/firebase'
+import { showError } from 'src/functions/showError'
+import { Notify } from 'quasar'
 
 export default {
   namespaced: true,
   state: {
     tasks: [],
-    search: ''
+    search: '',
+    tasksLoaded: false
   },
   mutations: {
     SET_TASKS(state, tasks){
@@ -28,6 +31,9 @@ export default {
     // },
     SET_SEARCH(state, search){
       state.search = search
+    },
+    SET_TASKS_LOADED(state, tasksLoaded){
+      state.tasksLoaded = tasksLoaded
     }
   },
   actions: {
@@ -39,31 +45,41 @@ export default {
       let collectionRef = firestoreService.collection('tasks').where(...query)
 
       collectionRef.onSnapshot(snap => {
+        context.commit('SET_TASKS_LOADED', true)
         let results = []
         snap.docs.forEach(doc => {
           results.push({ ...doc.data(), id: doc.id })
         })
         tasks = results
-        console.log(tasks)
         context.commit('SET_TASKS', tasks)
       }, (err) => {
-        console.log(err.message)
+        showError(err.message)
       })
     },
     async addTask(context, task){
       try {
         const res = await firestoreService.collection('tasks').add({ ...task, userId: context.rootState.auth.user.id })
+        Notify.create('Task added')
         return res
       }catch(err){
-        console.log(err.message)
+        showError(err.message)
       }
     },
     async updateTask(context, task){
-      console.log(task)
-      await firestoreService.collection('tasks').doc(task.id).update(task.updates)
+      try {
+        await firestoreService.collection('tasks').doc(task.id).update(task.updates)
+        Notify.create('Task updated')
+      }catch(err){
+        showError(err.message)
+      }
     },
     async deleteTask(context, id){
-      await firestoreService.collection('tasks').doc(id).delete()
+      try {
+        await firestoreService.collection('tasks').doc(id).delete()
+        Notify.create('Task deleted')
+      }catch(err){
+        showError(err.message)
+      }
     },
     setSearch(context, search){
       context.commit('SET_SEARCH', search)
