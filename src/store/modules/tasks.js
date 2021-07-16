@@ -1,6 +1,7 @@
 import { firestoreService } from 'src/boot/firebase'
 import { showError } from 'src/functions/showError'
 import { Notify } from 'quasar'
+import { watchEffect } from 'vue'
 
 export default {
   namespaced: true,
@@ -53,7 +54,8 @@ export default {
         tasks = results
         context.commit('SET_TASKS', tasks)
       }, (err) => {
-        showError(err.message)
+        // showError(err.message)
+        console.log(err.message)
       })
     },
     async addTask(context, task){
