@@ -1,4 +1,4 @@
-# Quasar app q-todo (q-todo)
+# Quasar app q-todo
 
 ### Deployed to google playstore
 
