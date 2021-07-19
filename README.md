@@ -1,22 +1,9 @@
-# q-todo (q-todo)
+# Quasar app q-todo (q-todo)
 
-A Quasar Framework app
+### Deployed to google playstore
 
-## Install the dependencies
-```bash
-npm install
-```
+Quasar client using firebase cloud firestore (real time listeners)
 
-### Start the app in development mode (hot-code reloading, error reporting, etc.)
-```bash
-quasar dev
-```
+![Screenshot](app1.jpg)
 
-
-### Build the app for production
-```bash
-quasar build
-```
-
-### Customize the configuration
-See [Configuring quasar.conf.js](https://v1.quasar.dev/quasar-cli/quasar-conf-js).
+![Screenshot](app3.jpg)
