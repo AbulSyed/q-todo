@@ -4,6 +4,5 @@
 
 Quasar client using firebase cloud firestore (real time listeners)
 
-![Screenshot](app1.jpg)
-
-![Screenshot](app3.jpg)
+<img src="./app1.jpg" width="300px" />
+<img src="./app3.jpg" width="300px" />
